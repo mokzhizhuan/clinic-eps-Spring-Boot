@@ -1,0 +1,320 @@
+body {
+  background: #f2f2f2;
+  margin: 0;
+}
+
+.navbar {
+  background: white;
+  padding: 1em;
+}
+
+.navbar .logo {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.2em;
+  color: black;
+}
+
+.navbar .mobile-menu {
+  width: 30px;
+  height: auto;
+}
+
+nav.menu-btn {
+  display: block;
+}
+
+nav {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  width: 66%;
+  right: 0;
+  top: 0;
+  background: #20272E;
+  height: 100vh;
+  padding: 1em;
+}
+
+nav ul.primary-nav {
+  margin-top: 5em;
+}
+
+nav li {
+  list-style-type: none;
+}
+
+nav li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: .5em;
+  font-size: 1.3em;
+  text-align: right;
+}
+
+nav li a:hover {
+  font-weight: bold;
+}
+
+nav .mobile-menu-exit {
+  float: right;
+  color: white;
+  cursor: pointer;
+}
+
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  place-content: space-between;
+}
+
+.mobile-menu {
+  cursor: pointer;
+}
+
+.hero {
+  text-align: center;
+}
+
+.hero ul li {
+  list-style-type: none;
+}
+
+.button {
+  height: 50px;
+  padding: 0;
+  background: #009578;
+  border: none;
+  width: 300px;
+  margin: 10px 0;
+  outline: none;
+  border-radius: 5px;
+  overflow: hidden;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: #008168;
+}
+
+.button:active {
+  background: #006e58;
+}
+
+.button__text, .button__icon {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0 16px;
+  color: #fff;
+  height: 100%;
+}
+
+.button__icon {
+  color: #fff;
+  height: 100%;
+  float: right;
+  font-size: 1.5em;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.hero h1 {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  letter-spacing: 0.2em;
+  color: grey;
+  font-size: 2em;
+}
+
+.hero h2 {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  letter-spacing: 0.2em;
+  color: grey;
+  margin: 5px 0;
+}
+
+/* Search Features */
+.searchBar-container {
+  margin: auto;
+  position: relative;
+  width: 350px;
+  height: 32px;
+  border: 2px solid #009578;
+  padding: 2px;
+  border-radius: 30px;
+  background: white;
+}
+
+.search-bar {
+  height: 100%;
+  width: 80%;
+  padding: 0 5px;
+  border-radius: 30px;
+  font-size: 16px;
+  outline: none;
+  border: none;
+}
+
+.search-button {
+  background: white;
+  height: 100%;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.search-list-container {
+  text-align: center;
+  margin: auto;
+  width: 75%;
+  max-width: 600px;
+}
+
+.search-list {
+  list-style-type: none;
+  width: 100%;
+  padding: 0;
+}
+
+.search-list a {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+.list-data-container {
+  display: block;
+  text-align: left;
+  border: 2px solid #009578;
+  width: 100%;
+  font-size: 18px;
+  margin: 20px 0;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.list-data-container span, label {
+  display: inline-block;
+  font-family: sans-serif;
+  margin: 5px 0;
+}
+
+.list-data-container:hover {
+  background: #ddd;
+  cursor: pointer;
+}
+
+.content-table{
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  min-width: 400px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0 ,0 ,0 ,0.15);
+  margin-left: auto ;
+  margin-right: auto;
+}
+
+.content-table thead tr{
+  background-color: #009879;
+  color: #fff;
+  text-align: left;
+  font-weight:bold;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.content-table th,
+.content-table td{
+  padding: 12px 15px;
+  font-family: 'Quicksand', sans-serif;
+  
+}
+
+.content-table tbody tr{
+  border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.content-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+/* Add Features */
+.add-container {
+  margin: auto;
+  width: 50%;
+  border: 3px solid #009578;
+  padding: 10px;
+  text-align: center;
+}
+
+.add-txt-field {
+  width: 100%;
+  margin: 6px;
+  padding: 3px;
+  text-align: left;
+}
+
+.add-txt-field label {
+  width: 150px;
+  display: inline-block;
+  font-size: 18px;
+  font-family: sans-serif;
+}
+
+.add-txt-field input[type=text], input[type=password] {
+  width: 50%;
+  height: 18px;
+  padding: 4px 8px;
+  font-size: 18px;
+  outline: none;
+}
+
+.add-txt-field select {
+  width: 50%;
+  height: 30px;
+  outline: none;
+  padding: 2px 5px;
+  font-size: 18px;
+}
+
+.add-txt-field input[type=radio] {
+  display: inline-block;
+  outline: none;
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+}
+
+.enter-button {
+  margin: 10px;
+  color: white;
+  background-color: #009578;
+  border: none;
+  padding: 10px 30px;
+  cursor: pointer;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+  font-size: 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  outline: none;
+}
+
+.enter-button:hover {
+  background-color: #008168;
+}
+/*# sourceMappingURL=main.css.map */
