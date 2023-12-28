@@ -2,10 +2,11 @@ package com.clinicapp.doctor.prescription;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -30,10 +31,16 @@ import com.clinicapp.entity.Payment;
 import com.clinicapp.entity.Prescription;
 import com.clinicapp.entity.User;
 import com.clinicapp.supplier.medicine.MedicineService;
-
-
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import jakarta.mail.MessagingException;
+import javax.mail.Message;
+import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
@@ -89,6 +96,7 @@ public class PrescriptionController {
 		model.addAttribute("listprescriptions", listprescription);
 		return "prescription_history";
 	}
+	
 	
 	@GetMapping("/prescription_history/payment")
 	public String showCheckoutPage(Model model, HttpServletRequest request) {
@@ -229,25 +237,77 @@ public class PrescriptionController {
 		
 		String toAddress = email;
 		String subject = "Prescription verfication";
+		String bufferimage = null; 
+		try {
+			bufferimage = generateQRCode(link);
+		} catch (WriterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		String content = "<p>Hello,</p>"
+		
+		String content = "<html><p>Hello," + email +"</p>"
 				+ "<p>You have requested to verify the prescription.</p>"
 				+ "Click the link below to verify the prescription:</p>"
-				+ "<p><a href=\"" + link + "\">prescription</a></p>"
+				+ "<p><a href=\"" + link + "\">" + "<img src=\"cid:image1\" width=\"30%\" height=\"30%\"/>" + "</a></p>"
 				+ "<br>"
 				+ "<p>Thanks, "
-				+ "Clinic Team.</p>";
-		
+				+ "Clinic Team.</p></html>";
+		 // creates message part
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setContent(content, "text/html");
+ 
+        System.out.println(bufferimage);
+        // creates multi-part
+        MimeMultipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
-		
+		Map<String, String> inlineImages = new HashMap<String, String>();
+		inlineImages.put("image1", bufferimage);
+		 // adds inline image attachments
+        if (inlineImages != null && inlineImages.size() > 0) {
+            Set<String> setImageID = inlineImages.keySet();
+             
+            for (String contentId : setImageID) {
+                MimeBodyPart imagePart = new MimeBodyPart();
+                imagePart.setHeader("Content-ID", "<" + contentId + ">");
+                imagePart.setDisposition(MimeBodyPart.INLINE);
+                 
+                String imageFilePath = inlineImages.get(contentId);
+                try {
+                    imagePart.attachFile(imageFilePath);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+ 
+                multipart.addBodyPart(imagePart);
+            }
+        }
+    
 		helper.setFrom(emailSettings.getFromAddress(), emailSettings.getSenderName());
 		helper.setTo(toAddress);
 		helper.setSubject(subject);		
-		
 		helper.setText(content, true);
+		
+		message.setContent(multipart);
 		mailSender.send(message);
 	}
+	
+	public static String generateQRCode(String link) throws WriterException, IOException {
+        String qrCodePath = "C:\\Users\\Mok Zhi Zhuan\\Documents\\workspace-spring-tool-suite-4-4.19.1.RELEASE\\clinic\\ClinicApp\\src\\main\\resources\\static\\qrcode\\" ;
+        String paths = link.replace("http://localhost:8080/clinic/prescription/verify?token=" , "");
+        String qrCodeName = qrCodePath+paths+"-QRCODE.png";
+        var qrCodeWriter = new QRCodeWriter();
+        BitMatrix bitMatrix = qrCodeWriter.encode(link, BarcodeFormat.QR_CODE, 400, 400);
+        Path path = FileSystems.getDefault().getPath(qrCodeName);
+        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
+        
+        return qrCodeName;
+    }
 	
 	@GetMapping("/prescription/verify")
 	public String verify(String token, Model model) {

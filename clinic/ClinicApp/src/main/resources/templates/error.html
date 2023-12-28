@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="ISO-8859-1">
 <title>Error 404</title>
@@ -15,7 +13,7 @@
 		
 		<div class="m-3">
 			<h2>Sorry, an unexpected error has occurred</h2>
-			<a href="">Back to Home</a>
+			<a th:href="@{/}">Back to Home</a>
 		</div>
 
 		<div>
