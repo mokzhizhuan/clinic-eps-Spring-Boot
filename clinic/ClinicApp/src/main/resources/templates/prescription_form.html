@@ -62,7 +62,7 @@
 		
 		<div>
 			<form th:action="@{/prescription/save}" method="post" style="max-width: 700px; margin: 0 auto"
-			enctype="multipart/form-data" th:object="${prescription}" >
+			enctype="multipart/form-data" th:object="${prescription}" onsubmit="return checkEmailValid(this);"  >
 				<input type="hidden" name="_csrf" value="b67be1ab-ccfc-4074-892d-b87dc490d256"/>
 				<input type="hidden" th:field="*{id}" />
 					<div class="border border-secondary rounded p-3">
@@ -113,14 +113,11 @@
 						<input type="text" class="form-control" th:field="*{cost}" required minlength="1" maxlength="256"  />
 					</div>
 				</div>
-			
-				<div>
-					<p>We will be sending a verify link to pharmacist email.</p>
-				</div>
+			<input type="hidden" name="_csrf" value="b67be1ab-ccfc-4074-892d-b87dc490d256"/>
 				<div>
 					<p>
-						<input type="email" name="pharaemail" class="form-control"
-							placeholder="Enter pharamist e-mail" required="required" oninput="checkEmailValid(this)"
+						<input type="email" name="pharaemail" class="form-control" id="pharaemail"
+							placeholder="Enter pharamist e-mail" required="required"
 						 />
 					</p>
 				</div>
@@ -144,25 +141,27 @@
 			});
 		});
 		
-		function checkEmailValid(pharaemail)
+		function checkEmailValid(form)
 		{
 			url = "[[@{/prescription/check_email}]]";
 			csrfValue = $("input[name='_csrf']").val();
-			
+			pharaemail = $("input[name='pharaemail']").val();
 			params = {email : pharaemail, _csrf : csrfValue};
 			
 			$.post(url, params, function(response)
 			{
 				if(response == "OK")
 				{
-					alert("Pharamacist email is verfied")
+					alert("Pharamacist email is verfied");
+					form.submit();
 				}
 				else if(response == "Duplicated")
 				{
-					alert("Invalid Pharamacist email , please try again");
+					alert("Invalid Pharamacist email ," + pharaemail + ", please try again");
 				}
 			});
 			
+			return false;
 		}
 		
 		$(document).ready(function(){

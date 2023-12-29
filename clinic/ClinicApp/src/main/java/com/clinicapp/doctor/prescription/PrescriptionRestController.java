@@ -14,7 +14,7 @@ public class PrescriptionRestController {
 	private UserService service;
 	
 	@PostMapping("/prescription/check_email")
-	public String checkEmailValis(@Param("email") String email)
+	public String checkEmailValid(@Param("email") String email)
 	{
 		return service.isEmailValid(email) ? "OK" : "Duplicated";
 	}

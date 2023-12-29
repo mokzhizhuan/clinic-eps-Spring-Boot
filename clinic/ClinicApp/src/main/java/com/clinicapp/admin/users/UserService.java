@@ -144,8 +144,8 @@ public class UserService
 	public boolean isEmailValid(String email) {
 		User userbyEmail = Userrepo.getUserByEmail(email);
 		String pharaverfication = userbyEmail.getRole();
-		
-		if (userbyEmail == null || pharaverfication != "Pharmacist")
+		System.out.print(pharaverfication);
+		if (userbyEmail == null && pharaverfication != "Pharmacist")
 		{
 			return false;
 		}
